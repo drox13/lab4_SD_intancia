@@ -1,10 +1,11 @@
 const Time = require('../data/Time');
 let time = new Time(0, 0, 0);
 
-const updateTime = (hr, mn, sc) => {
+const initTime = (hr, mn, sc) => {
     time.setTime(hr, mn, sc);
+    console.log("hour bby: " + time.getHour() + ":" + time.getMinute() + ":" + time.getSecond());
 }
 
 module.exports = {
-    updateTime
+    updateTime: initTime
 }

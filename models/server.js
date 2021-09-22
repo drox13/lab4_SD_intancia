@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require("axios");
-const {updateTime} = require('../controller/monitor')
+const { updateTime } = require('../controller/monitor')
+const { decodeHour } = require('../controller/utilities')
 const PORT = 5000
 
 class Server {
@@ -15,8 +16,8 @@ class Server {
     askForHour() {
         axios.get('http://worldtimeapi.org/api/timezone/America/Bogota')
             .then(function (response) {
-                console.log(response.data)
-                //updateTime(hr,mn,sc)
+                const hour_string = decodeHour(response.data.datetime.toString());
+                updateTime(hour_string[0], hour_string[1], hour_string[2]);
             }).catch(err => {
                 console.log('err')
             });

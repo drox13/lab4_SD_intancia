@@ -11,6 +11,18 @@ class Time
         this.minute = minute;
         this.second = second;
     }
+
+    getHour() {
+        return this.hour;
+    }
+
+    getMinute() {
+        return this.minute;
+    }
+
+    getSecond() {
+        return this.second;
+    }
 }
 
 module.exports = Time;
