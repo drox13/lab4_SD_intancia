@@ -4,7 +4,7 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 
 const cors = require('cors');
-const { socketConnect } = require('../controller/socketConnect');
+const { socketConnect } = require('../controller/monitor');
 
 class MyServer {
 	constructor() {
