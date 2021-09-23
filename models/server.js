@@ -1,13 +1,19 @@
-const express = require('express');
-const cors = require('cors');
 const PORT = 5000
+const express = require('express');
+const { createServer } = require("http");
+const { Server } = require("socket.io")
 
-class Server{
+const cors = require('cors');
+
+class MyServer{
     constructor(){
-        this.app = express();
         this.port = PORT;
+        this.app = express();
+        this.httpServer = createServer(this.app);
+        this.io = new Server(this.httpServer,this.port);
         this.middleware();
         this.routes()
+        this.sockets();
     }
 
     middleware(){
@@ -20,11 +26,20 @@ class Server{
         this.app.use('/', require('../routes/monitor'));
     }
 
-    listen(){
-        this.app.listen(this.port, ()=>{
-            console.log(`Server on! PORT ${this.port}`);
+    sockets() {
+        this.io.on("connection", (client) => {
+          console.log("Client connect!");
         });
+
+        setInterval(() => {
+            this.io.emit("time",{time: new Date()}); //se debe enviar la hora de la instancia
+        }, 1000);
+    }
+
+    listen(){
+        this.httpServer.listen(this.port);
+        console.log(`Server on! PORT ${this.port}`);
     }
 }
 
-module.exports = Server;
+module.exports = MyServer;
