@@ -5,10 +5,15 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Intancia Hora Sincronizacin Berkeley</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src='js/client.js'></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='js/client.js' async></script>
+    <link rel="stylesheet" href="css/indexStyle.css">
 </head>
 <body>
-    <h1> AQUI VA LA HORA</h1>
-    
+    <div id = "time_container" class = "time_container">
+    <h1 id = "hr_text"></h1>
+    <h1 id = "mn_text"></h1>
+    <h1 id = "sc_text"></h1>
+    </div>
 </body>
 </html>

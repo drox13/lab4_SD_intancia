@@ -1,0 +1,8 @@
+.time_container {
+    display: inline-block;
+    background-color: red;
+}
+
+h1 {
+    float: left;
+}
