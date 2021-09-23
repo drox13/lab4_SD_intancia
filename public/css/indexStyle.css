@@ -1,8 +1,57 @@
 .time_container {
+    position: absolute;
     display: inline-block;
-    background-color: red;
+    left: 50%;
+    top: 15%;
+    transform: translateX(-50%);
+    border: 2px solid rgb(31, 86, 138);
+    border-radius: 1em;
+}
+
+.adjusts_container{
+    position: absolute;
+    display: inline-block;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+}
+
+.adjusts_container h3 {
+    text-align: center;
+    margin: 0px;
+    margin-right: 1.5em;
+}
+
+.adjusts_container select {
+    width: 3em;
+    height: 3em;
+    margin-right: 1em;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.selector_container option{
+    text-align: center;
+}
+
+.selector_container {
+    float: left;
 }
 
 h1 {
+    margin: 0px;
     float: left;
+    font-size: 8em;
+}
+
+.button_container {
+    position: absolute;
+    left: 50%;
+    bottom: 15%;
+    transform: translateX(-50%);
+}
+
+.button_container button {
+    font-size: 2em;
+    margin-right: 1em;
 }

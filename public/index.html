@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -9,11 +10,30 @@
     <script src='js/client.js' async></script>
     <link rel="stylesheet" href="css/indexStyle.css">
 </head>
+
 <body>
-    <div id = "time_container" class = "time_container">
-    <h1 id = "hr_text"></h1>
-    <h1 id = "mn_text"></h1>
-    <h1 id = "sc_text"></h1>
+    <div id="time_container" class="time_container">
+        <h1 id="hr_text"></h1>
+        <h1 id="mn_text"></h1>
+        <h1 id="sc_text"></h1>
+    </div>
+    <div id="adjusts_container" class="adjusts_container">
+        <div id="hr_selector_container" class = "selector_container">
+            <h3>Hh</h3>
+            <select id="hr_selector" class="hr_selector"></select>
+        </div>
+        <div id="mn_selector_container" class = "selector_container">
+            <h3>Mm</h3>
+            <select id="mn_selector" class="mn_selector"></select>
+        </div>
+        <div id="sc_selector_container" class = "selector_container">
+            <h3>Ss</h3>
+            <select id="sc_selector" class="sc_selector"></select>
+        </div>
+    </div>
+    <div id = "button_container" class = "button_container">
+        <button type = "submit" id = "adjust_button" class = "adjust_button"> ADJUST </button>
     </div>
 </body>
+
 </html>

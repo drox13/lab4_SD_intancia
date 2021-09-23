@@ -24,13 +24,17 @@ class Time
         return this.second;
     }
 
+    getIntervalID() {
+
+    }
+
     start() {
-        setInterval(()=>{
+       setInterval(()=>{
             this.second += 1;
-            if(this.second > 60) {
+            if(this.second > 59) {
                 this.second = 0;
                 this.minute += 1;
-                if(this.minute > 60) {
+                if(this.minute > 59) {
                     this.minute = 0;
                     this.hour += 1;
                     if(this.hour > 23) {

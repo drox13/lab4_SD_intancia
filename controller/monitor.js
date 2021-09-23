@@ -1,9 +1,13 @@
 const Time = require('../data/Time');
 let time = new Time(0, 0, 0);
 
-const updateTime = (hr, mn, sc) => {
+const initTime = (hr, mn, sc) => {
     time.setTime(hr, mn, sc);
     time.start();
+}
+
+const updateTime = (hr,mn,sc) => {
+    time.setTime(hr, mn, sc);
 }
 
 const readTime = function belowReadTime() {
@@ -11,6 +15,7 @@ const readTime = function belowReadTime() {
 }
 
 module.exports = {
+    initTime,
     updateTime,
     readTime
 }
