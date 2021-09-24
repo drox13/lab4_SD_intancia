@@ -49,7 +49,9 @@ class Server {
 
     anotherSockets() {
         this.clientSocket.on('connection',(socket) => {
+            console.log('al menos me conecté xd')
             this.clientSocket.on('message',function(data){
+                console.log('sisa me llamaron xd')
                 console.log('xd data: ' + data.msg);
             })
         }); 
