@@ -53,8 +53,8 @@ class Server {
          this.clientSocket.on('connect', (socket) => {
             this.clientSocket.on('socketClientID', function (data) {
                 console.log('xd data: ' + data);
-                this.clientSocket.emit('hello_from_client', {client: 'ma boi'})
             });
+            this.clientSocket.emit('hello_from_client', {client: 'ma boi'})
         });
     }
 
