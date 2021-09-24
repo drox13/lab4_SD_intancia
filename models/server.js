@@ -16,7 +16,7 @@ class Server {
         this.middleware();
         this.routes()
         this.askForHour()
-        // this.sockets();
+        this.sockets();
         this.anotherSockets();
     }
 
@@ -39,7 +39,7 @@ class Server {
     sockets() {
         this.io.on("connection", (socket) => {
             setInterval(() => {
-                socket.emit('time', { time: readTime() })
+                this.io.emit('time', { time: readTime() })
             }, 1000)
             socket.on('time_adjustment', function (data) {
                 updateTime(parseInt(data.hr), parseInt(data.mn), parseInt(data.sc));
@@ -48,13 +48,13 @@ class Server {
     }
 
     anotherSockets() {
-        this.clientSocket.on('connect'), (socket) => {
+        this.clientSocket.on('connect', (socket) => {
             socket.on('socketClientID', function (data) {
                 console.log('sisa me llamaron xd')
                 console.log('xd data: ' + data.msg);
                 // this.clientSocket.emit('client', {client: 'ma boi'})
             });
-        }
+        });
     }
 
     routes() {
