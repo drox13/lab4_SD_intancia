@@ -48,13 +48,18 @@ class Server {
     }
 
     anotherSockets() {
-        this.clientSocket.on('message', function (data) {
-            socket.on('send message',function(data)
-        {
-            this.clientSocket.emit('hello', { client: 'im your new client fcker' });
-        }.bind(this));
+        this.clientSocket.on('connection',(socket) => {
+            socket.on('message',function(data)
+            {
+                console.log('xd data: ' + data.msg);
+            this.clientSocket.emit('client', {client: 'im your client fcker'});//here the error lies.
+            }.bind(this));
+        }); 
+
+
+        // this.clientSocket.on('message', function (data) {
         //     this.clientSocket.emit('hello', { client: 'im your new client fcker' });
-        });
+        // });
     }
 
     routes() {
