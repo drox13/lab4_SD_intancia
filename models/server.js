@@ -49,7 +49,7 @@ class Server {
 
     anotherSockets() {
         this.clientSocket.on('connect', (socket) => {
-            socket.on('socketClientID', function (data) {
+            this.clientSocket.on('socketClientID', function (data) {
                 console.log('sisa me llamaron xd')
                 console.log('xd data: ' + data.msg);
                 // this.clientSocket.emit('client', {client: 'ma boi'})
