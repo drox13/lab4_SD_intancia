@@ -3,7 +3,7 @@ const axios = require('axios');
 let time = new Date();
 let offset;
 
-setInterval(() => {
+let threadGetTimeFromAPI = setInterval(() => {
 	axios
 		.get('http://worldtimeapi.org/api/timezone/America/Buenos_Aires')
 		.then(({ data }) => {
@@ -12,8 +12,8 @@ setInterval(() => {
 
 			// console.log('OJO: el siguiente metodo optinen las horas de una fecha, usando el tiempo local');
 			// console.log(time.getHours(), time.getMinutes(), time.getSeconds());
-			console.log('hora standard');
-			console.log(time);
+			// console.log('hora standard');
+			// console.log(time);
 			console.log('Hora real de buenos aires');
 			let signo = offset.substring(0, 1);
 			if (signo == '-') {
@@ -32,7 +32,7 @@ setInterval(() => {
 const socketConnect = (socketClient) => {
 	console.log('Client connect!', socketClient.id);
 
-	setInterval(() => {
+	let threadSendTimeToClient = setInterval(() => {
 		socketClient.emit('time', {
 			time: {
 				hour: time.getUTCHours(),
@@ -41,6 +41,16 @@ const socketConnect = (socketClient) => {
 			},
 		}); //se debe enviar la hora de la instancia
 	}, 1000);
+
+	socketClient.on('newTime', (payload) => {
+		clearInterval(threadGetTimeFromAPI);
+		clearInterval(threadSendTimeToClient);
+		let { hour, minutes, seconds } = payload.time;
+		time = new Date(2021, 09, 21, hour, minutes, seconds);
+		setInterval(() => {
+			console.log('New time: ', time.getHours(), time.getUTCMinutes(), time.getUTCSeconds());
+		}, 1000);
+	});
 };
 
 module.exports = {

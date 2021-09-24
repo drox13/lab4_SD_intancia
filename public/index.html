@@ -13,6 +13,15 @@
 <body>
     <h1> AQUI VA LA HORA</h1>
     <span id="time"></span>
+    <hr>
+    <br>
+    <form id="form_set_time">
+        <label for="form_set_time"> Set Time</label>
+        <input type="number" name="setHour" id="setHour" placeholder="Input hour">
+        <input type="number" name="setMinutes" id="setMinutes" placeholder="Input minutes">
+        <input type="number" name="setSeconds" id="setSeconds" placeholder="Input seconds">
+        <button type="submit" onclick="sendNewTime()"> Send Time</button>
+    </form>
 </body>
 
 </html>
