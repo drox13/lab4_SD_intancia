@@ -12,16 +12,16 @@ setInterval(() => {
 
 			// console.log('OJO: el siguiente metodo optinen las horas de una fecha, usando el tiempo local');
 			// console.log(time.getHours(), time.getMinutes(), time.getSeconds());
-			console.log('hora standard');
-			console.log(time);
-			console.log('Hora real de buenos aires');
+			// console.log('hora standard');
+			// console.log(time);
+			// console.log('Hora real de buenos aires');
 			let signo = offset.substring(0, 1);
 			if (signo == '-') {
 				time.setUTCHours(time.getUTCHours() - parseInt(offset.substring(2, 3)));
-				console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
+				// console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 			} else {
-				time.setHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
-				console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
+				time.setUTCHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
+				// console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 			}
 		})
 		.catch((error) => {
@@ -31,7 +31,6 @@ setInterval(() => {
 
 const socketConnect = (socketClient) => {
 	console.log('Client connect!', socketClient.id);
-
 	setInterval(() => {
 		socketClient.emit('time', {
 			time: {
@@ -43,6 +42,11 @@ const socketConnect = (socketClient) => {
 	}, 1000);
 };
 
+const sendDataToCoordinator = (socketCoordinator)=>{
+	
+}
+
 module.exports = {
 	socketConnect,
+	sendDataToCoordinator,
 };
