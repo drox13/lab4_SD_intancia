@@ -12,7 +12,9 @@ class Server {
         this.port = PORT;
         this.server = require("http").createServer(this.app);
         this.io = require("socket.io")(this.server);
-        this.clientSocket = require("socket.io-client")('http://172.20.160.1:9000'); // This is a client connecting to the SERVER 2
+        // this.clientSocket = require("socket.io-client")('http://172.20.160.1:9000'); // This is a client connecting to the SERVER 2
+        this.ioc = require('socket.io-client');
+        this.clientSocket = ioc.connect('http://172.20.160.1:9000',{secure: true,    rejectUnauthorized: false});
         this.middleware();
         this.routes()
         this.askForHour()
@@ -48,10 +50,10 @@ class Server {
     }
 
     anotherSockets() {
-        this.clientSocket.on('connect', (socket) => {
+         this.clientSocket.on('connect', (socket) => {
             this.clientSocket.on('socketClientID', function (data) {
                 console.log('xd data: ' + data);
-                this.clientSocket.emit('client', {client: 'ma boi'})
+                this.clientSocket.emit('hello_from_client', {client: 'ma boi'})
             });
         });
     }
