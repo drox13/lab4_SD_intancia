@@ -15,13 +15,15 @@ let threadGetTimeFromAPI = setInterval(() => {
 			// console.log('hora standard');
 			// console.log(time);
 			console.log('Hora real de buenos aires');
+
+			// console.log('Hora real de buenos aires');
 			let signo = offset.substring(0, 1);
 			if (signo == '-') {
 				time.setUTCHours(time.getUTCHours() - parseInt(offset.substring(2, 3)));
-				console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
+				// console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 			} else {
-				time.setHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
-				console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
+				time.setUTCHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
+				// console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 			}
 		})
 		.catch((error) => {
