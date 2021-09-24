@@ -48,11 +48,13 @@ class Server {
     }
 
     anotherSockets() {
-            this.clientSocket.on('message',function(data){
+        this.clientSocket.on('connection'), (socket) => {
+            socket.on('message',function(data){
                 console.log('sisa me llamaron xd')
                 console.log('xd data: ' + data.msg);
-                this.clientSocket.emit('client', {client: 'ma boi'})
+                // this.clientSocket.emit('client', {client: 'ma boi'})
             });
+        }
     }
 
     routes() {
