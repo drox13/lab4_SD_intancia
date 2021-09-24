@@ -49,8 +49,11 @@ class Server {
 
     anotherSockets() {
         this.clientSocket.on('message', function (data) {
-            console.log('I got joined')
+            socket.on('send message',function(data)
+        {
             this.clientSocket.emit('hello', { client: 'im your new client fcker' });
+        }.bind(this));
+        //     this.clientSocket.emit('hello', { client: 'im your new client fcker' });
         });
     }
 
