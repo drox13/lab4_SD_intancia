@@ -51,8 +51,8 @@ class Server {
         this.clientSocket.on('connect', (socket) => {
             this.clientSocket.on('socketClientID', function (data) {
                 console.log('sisa me llamaron xd')
-                console.log('xd data: ' + data.msg);
-                // this.clientSocket.emit('client', {client: 'ma boi'})
+                console.log('xd data: ' + data);
+                socket.emit('client', {client: 'ma boi'})
             });
         });
     }
