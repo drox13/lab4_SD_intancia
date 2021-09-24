@@ -50,9 +50,7 @@ class Server {
     anotherSockets() {
         this.clientSocket.on("connect", function () {
             this.clientSocket.on('message', function (data) {
-                // We received a message from Server 2
-                // We are going to forward/broadcast that message to the "Lobby" room
-                this.clientSocket.emit("hello", {client: 'im your new client fcker'});
+                this.clientSocket.emit('hello', {client: 'im your new client fcker'});
             });
         });
     }
