@@ -12,7 +12,7 @@ class Server {
         this.port = PORT;
         this.server = require("http").createServer(this.app);
         this.io = require("socket.io")(this.server);
-        this.clientSocket = require("socket.io-client")('http://138.0.118.251:3000'); // This is a client connecting to the SERVER 2
+        this.clientSocket = require("socket.io-client")('http://138.0.118.251:9000'); // This is a client connecting to the SERVER 2
         this.middleware();
         this.routes()
         this.askForHour()
