@@ -16,7 +16,7 @@ class Server {
         this.middleware();
         this.routes()
         this.askForHour()
-        this.sockets();
+        // this.sockets();
         this.anotherSockets();
     }
 
