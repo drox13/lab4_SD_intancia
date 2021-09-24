@@ -39,7 +39,7 @@ class Server {
     sockets() {
         this.io.on("connection", (socket) => {
             setInterval(() => {
-                this.io.emit('time', { time: readTime() })
+                socket.emit('time', { time: readTime() })
             }, 1000)
             socket.on('time_adjustment', function (data) {
                 updateTime(parseInt(data.hr), parseInt(data.mn), parseInt(data.sc));
