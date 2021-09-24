@@ -1,5 +1,9 @@
 const axios = require('axios');
 
+//socket con el coordinador
+const io = require("socket.io-client");
+const socket = io("http://127.0.0.1:9000/");
+
 let time = new Date();
 let offset;
 
@@ -27,7 +31,7 @@ setInterval(() => {
 		.catch((error) => {
 			console.log(error);
 		});
-}, 500); //60000 = 1 minuto
+}, 900); //60000 = 1 minuto
 
 const socketConnect = (socketClient) => {
 	console.log('Client connect!', socketClient.id);
@@ -38,15 +42,30 @@ const socketConnect = (socketClient) => {
 				minutes: time.getUTCMinutes(),
 				seconds: time.getUTCSeconds(),
 			},
-		}); //se debe enviar la hora de la instancia
+		}); 
 	}, 1000);
 };
 
-const sendDataToCoordinator = (socketCoordinator)=>{
-	
-}
+socket.on("connect", () => {
+	socket.emit("Hello", "hola soy una instancia");
+});
+
+var desface
+socket.on("timeServer",(message)=>{
+ 	console.log(message.time, "este console");
+	let timeCoordinator = new Date(message.time);
+	desface = (timeCoordinator.getTime() - time.getTime())/1000
+	socket.emit("desface", {
+		desface: desface,
+		id: socket.id
+		}
+	);
+});
+
+socket.on("sincronization", (dataSincronitazion)=>{
+	//aca se podra optener el dato para sincronizar
+})
 
 module.exports = {
 	socketConnect,
-	sendDataToCoordinator,
 };
