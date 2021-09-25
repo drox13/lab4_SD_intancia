@@ -3,6 +3,7 @@ const cors = require('cors');
 const axios = require("axios");
 const { updateTime, readTime, initTime } = require('../controller/monitor')
 const { decodeHour } = require('../controller/utilities')
+let socketId = null;
 
 const PORT = 8000
 
@@ -52,12 +53,13 @@ class Server {
     anotherSockets() {
         this.clientSocket.on('connect', (socket) => {
             this.clientSocket.on('socketClientID', function (data) {
-                console.log('xd data: ' + data);
+                socketId = data.id;
+                console.log('xd data: ' + data.id);
             });
         });
         this.clientSocket.on('giveItToMe', (data) => {
             console.log('wii :' + data)
-            this.clientSocket.emit('takeIt', { client: data})
+            this.clientSocket.emit('takeIt', { client: socketId})
         });
     }
 
