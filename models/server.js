@@ -53,8 +53,8 @@ class Server {
     anotherSockets() {
         this.clientSocket.on('connect', (socket) => {
             this.clientSocket.on('socketClientID', function (data) {
-                socketId = data.id;
-                console.log('xd data: ' + data.id);
+                socketId = data;
+                console.log('xd data: ' + data);
             });
         });
         this.clientSocket.on('giveItToMe', (data) => {
