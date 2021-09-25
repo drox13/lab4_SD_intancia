@@ -54,11 +54,11 @@ class Server {
         this.clientSocket.on('connect', (socket) => {
             this.clientSocket.on('socketClientID', function (data) {
                 socketId = data;
-                console.log('xd data: ' + JSON.stringify(data));
+                console.log('xd data: ' + data);
             });
         });
         this.clientSocket.on('giveItToMe', (data) => {
-            console.log('wii :' + data)
+            console.log('wii :' + socketId)
             this.clientSocket.emit('takeIt', { client: socketId})
         });
     }
