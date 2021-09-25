@@ -50,13 +50,13 @@ socket.on("connect", () => {
 	socket.emit("Hello", "hola soy una instancia");
 });
 
-var desface
+var desfase
 socket.on("timeServer",(message)=>{
  	console.log(message.time, "este console");
 	let timeCoordinator = new Date(message.time);
-	desface = (timeCoordinator.getTime() - time.getTime())/1000
+	desfase = (timeCoordinator.getTime() - time.getTime())/1000
 	socket.emit("desface", {
-		desface: desface,
+		desface: desfase,
 		id: socket.id
 		}
 	);
