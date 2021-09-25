@@ -58,7 +58,7 @@ class Server {
             });
         });
         this.clientSocket.on('giveItToMe', (data) => {
-            console.log('wii :' + socketId)
+            console.log('wii :' + socketId.toString())
             this.clientSocket.emit('takeIt', { client: socketId})
         });
     }
