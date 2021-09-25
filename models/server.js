@@ -55,10 +55,9 @@ class Server {
                 console.log('xd data: ' + data);
             });
         });
-        //ready to start doing Berkeley
         this.clientSocket.on('giveItToMe', (data) => {
             console.log('wii :' + data)
-            this.clientSocket.emit('takeIt', { client: 'ma boi' })
+            this.clientSocket.emit('takeIt', { client: socket.id })
         });
     }
 
