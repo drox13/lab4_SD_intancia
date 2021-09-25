@@ -54,7 +54,7 @@ class Server {
         this.clientSocket.on('connect', (socket) => {
             this.clientSocket.on('socketClientID', function (data) {
                 socketId = data;
-                console.log('xd data: ' + data);
+                console.log('xd data: ' + JSON.stringify(data));
             });
         });
         this.clientSocket.on('giveItToMe', (data) => {
