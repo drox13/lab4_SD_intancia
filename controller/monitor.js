@@ -2,7 +2,7 @@ const axios = require('axios');
 
 //socket con el coordinador
 const io = require("socket.io-client");
-const socket = io("http://127.0.0.1:9000/");
+const socket = io("localhost:9000/"); //http://127.0.0.1
 
 let time = new Date();
 let offset;
