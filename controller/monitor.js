@@ -29,7 +29,8 @@ setInterval(() => {
 			}
 		})
 		.catch((error) => {
-			console.log(error);
+			//console.log(error);
+			console.log("Error en api");
 		});
 }, 900); //60000 = 1 minuto
 
@@ -47,7 +48,10 @@ const socketConnect = (socketClient) => {
 };
 
 socket.on("connect", () => {
-	socket.emit("Hello", "hola soy una instancia");
+	socket.emit("Hello", {
+		saludo: "hola soy una instancia",
+		socketid: socket.id	
+	});
 });
 
 var desfase
