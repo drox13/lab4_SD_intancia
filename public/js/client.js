@@ -1,4 +1,6 @@
 var socket = io(); //"http://127.0.0.1:5000/"
+var hour_element = document.getElementById('time');
+var beforeDate = new Date();
 
 socket.on('connect', () => {
 	console.log('connect from server!');
@@ -7,7 +9,12 @@ socket.on('connect', () => {
 socket.on('time', (payload) => {
 	let { hour, minutes, seconds } = payload.time;
 	let time = new Date(2021, 09, 21, hour, minutes, seconds);
-	const hour_element = document.getElementById('time');
+	hour_element.innerHTML = time.getHours() + ' : ' + time.getMinutes() + ' : ' + time.getSeconds();
+});
+
+socket.on('newValueToClient', (payload) => {
+	let { hour, minutes, seconds } = payload.time;
+	let time = new Date(2021, 09, 21, hour, minutes, seconds);
 	hour_element.innerHTML = time.getHours() + ' : ' + time.getMinutes() + ' : ' + time.getSeconds();
 });
 
@@ -26,6 +33,8 @@ function sendNewTime() {
 				seconds: newSeconds,
 			},
 		});
+		document.getElementById('form_set_time').reset();
+		hour_element.innerHTML = newHour + ' : ' + newMinutes + ' : ' + newSeconds;
 		console.log('time sent');
 	});
 }

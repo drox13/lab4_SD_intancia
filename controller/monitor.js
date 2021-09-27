@@ -1,4 +1,6 @@
 const axios = require('axios');
+const io = require('socket.io-client');
+const socket = io('http://127.0.0.1:9000/');
 
 let time = new Date();
 let offset;
@@ -46,11 +48,30 @@ const socketConnect = (socketClient) => {
 		clearInterval(threadSendTimeToClient);
 		let { hour, minutes, seconds } = payload.time;
 		time = new Date(2021, 09, 21, hour, minutes, seconds);
-		setInterval(() => {
-			console.log('New time: ', time.getHours(), time.getUTCMinutes(), time.getUTCSeconds());
-		}, 1000);
+		time.setUTCHours(time.getUTCHours() - 5);
+		console.log('New time: ', time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 	});
 };
+
+socket.on('timeServer', (message) => {
+	let timeCoordinator = new Date(message.time);
+	gap = (timeCoordinator.getTime() - time.getTime()) / 1000;
+	socket.emit('desface', {
+		gap,
+	});
+});
+
+socket.on('gapNewValue', (message) => {
+	let newValue = message.newValue;
+	time.setTime(newValue * 1000);
+	socket.emit('newValueToClient', {
+		time: {
+			hour: time.getUTCHours(),
+			minutes: time.getUTCMinutes(),
+			seconds: time.getUTCSeconds(),
+		},
+	});
+});
 
 module.exports = {
 	socketConnect,

@@ -5,23 +5,33 @@
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Intancia Hora Sincronizacin Berkeley</title>
+    <link rel="stylesheet" href="style.css">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src="socket.io/socket.io.js"></script>
-    <script src='js/client.js'></script>
 </head>
 
 <body>
     <h1> AQUI VA LA HORA</h1>
-    <span id="time"></span>
+    <h2>Hora actual: <span id="time"></span></h2>
     <hr>
     <br>
     <form id="form_set_time">
         <label for="form_set_time"> Set Time</label>
-        <input type="number" name="setHour" id="setHour" placeholder="Input hour">
-        <input type="number" name="setMinutes" id="setMinutes" placeholder="Input minutes">
-        <input type="number" name="setSeconds" id="setSeconds" placeholder="Input seconds">
+        <input type="number" name="setHour" id="setHour" min="0" max="24" placeholder="HH">
+        <input type="number" name="setMinutes" id="setMinutes" min="0" max="60" placeholder="MM">
+        <input type="number" name="setSeconds" id="setSeconds" min="0" max="60" placeholder="SS">
         <button type="submit" onclick="sendNewTime()"> Send Time</button>
     </form>
+    <script src='js/client.js'></script>
+
+    <table class="registry_table">
+        <tr>
+            <th>Hora Local</th>
+            <th>Ajuste</th>
+            <th>Nueva Hora</th>
+            <th>Tipo</th>
+        </tr>
+    </table>
 </body>
 
 </html>
