@@ -62,7 +62,7 @@ socket.on("timeServer",(message)=>{
 	let timeCoordinator = new Date(message.time);
 	desfase = (timeCoordinator.getTime() - time.getTime())/1000
 	socket.emit("desface", {
-		desface: desfase,
+		desfase: desfase,
 		id: socket.id
 		}
 	);
