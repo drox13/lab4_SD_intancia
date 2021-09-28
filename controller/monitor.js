@@ -11,37 +11,30 @@ let time = new Date();
 let offset;
 let gap;
 let timeBeforeAdjusment;
-
-let threadGetTimeFromAPI = setInterval(() => {
-	axios
-		.get('http://worldtimeapi.org/api/timezone/America/Buenos_Aires')
-		.then(({ data }) => {
-			time = new Date(data.utc_datetime);
-			offset = data.utc_offset;
-
-			// console.log('OJO: el siguiente metodo optinen las horas de una fecha, usando el tiempo local');
-			// console.log(time.getHours(), time.getMinutes(), time.getSeconds());
-			// console.log('hora standard');
-			// console.log(time);
-			console.log('Hora real de buenos aires');
-			let signo = offset.substring(0, 1);
-			if (signo == '-') {
-				time.setUTCHours(time.getUTCHours() - parseInt(offset.substring(2, 3)));
-				console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
-			} else {
-				time.setUTCHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
-				console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
-			}
-		})
-		.catch((error) => {
-			//console.log(error);
-			console.log('Error en api');
-		});
-}, 900); //60000 = 1 minuto
+var threadSendTimeToClient;
 
 const socketConnect = (socketClient) => {
 	console.log('Client connect!', socketClient.id);
-	let threadSendTimeToClient = setInterval(() => {
+	threadSendTimeToClient = setInterval(() => {
+		axios
+			.get('http://worldtimeapi.org/api/timezone/America/Buenos_Aires')
+			.then(({ data }) => {
+				time = new Date(data.utc_datetime);
+				offset = data.utc_offset;
+				console.log('Hora real de buenos aires');
+				let signo = offset.substring(0, 1);
+				if (signo == '-') {
+					time.setUTCHours(time.getUTCHours() - parseInt(offset.substring(2, 3)));
+					console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
+				} else {
+					time.setUTCHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
+					console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
+				}
+			})
+			.catch((error) => {
+				//console.log(error);
+				console.log('Error en api');
+			});
 		socketClient.emit('time', {
 			time: {
 				hour: time.getUTCHours(),
@@ -52,10 +45,9 @@ const socketConnect = (socketClient) => {
 	}, 1000);
 
 	socketClient.on('newTime', (payload) => {
-		clearInterval(threadGetTimeFromAPI);
 		clearInterval(threadSendTimeToClient);
 		let { hour, minutes, seconds } = payload.time;
-		time = new Date(2021, 09, 21, hour, minutes, seconds);
+		time = new Date(2021, 09, 28, hour, minutes, seconds);
 		time.setUTCHours(time.getUTCHours() - 5);
 		console.log('New time: ', time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 	});
@@ -69,7 +61,7 @@ socket.on('connect', () => {
 });
 
 socket.on('timeServer', (message) => {
-	clearInterval(threadGetTimeFromAPI);
+	//clearInterval(threadGetTimeFromAPI);
 	clearInterval(threadSendTimeToClient);
 	console.log(message.time, 'llega tiempo desde el coordinador');
 	let timeCoordinator = new Date(message.time);

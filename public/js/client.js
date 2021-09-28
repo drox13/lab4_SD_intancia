@@ -44,7 +44,7 @@ function sendNewTime() {
 			},
 		});
 		form.reset();
-		hour_element.innerHTML = newHour + ' : ' + newMinutes + ' : ' + newSeconds;
+		currentTimeElement.innerHTML = newHour + ' : ' + newMinutes + ' : ' + newSeconds;
 		console.log('time sent');
 	});
 }
