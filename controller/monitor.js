@@ -3,7 +3,8 @@ let io2 = null;
 //socket con el coordinador
 const io = require('socket.io-client');
 
-const socket = io('http://191.102.197.40:9000');
+
+const socket = io('http://192.168.122.1:9000');
 //http://192.168.100.4:9000/ //para cuando se despliegue en docker
 //http://127.0.0.1:9000/  para conectarse localmente
 
