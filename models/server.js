@@ -4,7 +4,7 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 
 const cors = require('cors');
-const { socketConnect, initTime } = require('../controller/monitor');
+const { socketConnect, initTime, setIO2 } = require('../controller/monitor');
 
 class MyServer {
 	constructor() {
@@ -29,6 +29,7 @@ class MyServer {
 
 	sockets() {
 		this.io.on('connection', socketConnect);
+		setIO2(this.io);
 	}
 
 	listen() {

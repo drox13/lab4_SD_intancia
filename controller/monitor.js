@@ -1,5 +1,5 @@
 const axios = require('axios');
-
+let io2 = null;
 //socket con el coordinador
 const io = require('socket.io-client');
 
@@ -11,6 +11,10 @@ let time = new Date();
 let offset;
 let gap;
 let timeBeforeAdjusment;
+
+const setIO2 = (in_io2) => {
+	io2 = in_io2;
+}
 
 const initTime = () => {
 	console.log('me llamaron')
@@ -36,7 +40,7 @@ const initTime = () => {
 
 const socketConnect = (socketClient) => {
 	console.log('Client connect!', socketClient.id);
-	let threadSendTimeToClient = setInterval(() => {
+	setInterval(() => {
 		socketClient.emit('time', {
 			time: {
 				hour: time.getUTCHours(),
@@ -47,12 +51,11 @@ const socketConnect = (socketClient) => {
 	}, 1000);
 
 	socketClient.on('newTime', (payload) => {
-		clearInterval(threadGetTimeFromAPI);
-		clearInterval(threadSendTimeToClient);
 		let { hour, minutes, seconds } = payload.time;
-		time = new Date(2021, 09, 21, hour, minutes, seconds);
-		time.setUTCHours(time.getUTCHours() - 5);
-		console.log('New time: ', time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
+		time.setHours(hour);
+		time.setMinutes(minutes);
+		time.setSeconds(seconds);
+		console.log('new time : ' + time)
 	});
 };
 
@@ -64,8 +67,6 @@ socket.on('connect', () => {
 });
 
 socket.on('timeServer', (message) => {
-	clearInterval(threadGetTimeFromAPI);
-	clearInterval(threadSendTimeToClient);
 	console.log(message.time, 'llega tiempo desde el coordinador');
 	let timeCoordinator = new Date(message.time);
 	timeBeforeAdjusment = time;
@@ -77,27 +78,18 @@ socket.on('timeServer', (message) => {
 });
 
 socket.on('ajuste', (ajuste) => {
-	//aca se podra optener el dato para sincronizar
 	console.log('este es el ajuste', ajuste);
 	let adjustment = ajuste;
-	time.setTime(adjustment * 1000);
-	socketClient.emit('adjustmentValueToClient', {
-		currentTime: {
-			currentHour: timeBeforeAdjusment.getUTCHours(),
-			currentMinutes: timeBeforeAdjusment.getUTCMinutes(),
-			currentSeconds: timeBeforeAdjusment.getUTCSeconds(),
-		},
-		adjustment,
-		newTime: {
-			hour: time.getUTCHours(),
-			minutes: time.getUTCMinutes(),
-			seconds: time.getUTCSeconds(),
-		},
-	});
+	const before_hours = time.getHours();
+	const before_mins = time.getMinutes();
+	const before_secs = time.getSeconds();
+	time.setSeconds(time.getSeconds() + adjustment)
+	io2.emit('ajuste2',{ before_hours, before_mins, before_secs, adjustment, new_hours: time.getHours(), new_mins: time.getMinutes(), new_secs: time.getSeconds()})
 });
 
 module.exports = {
 	socketConnect,
-	initTime
+	initTime,
+	setIO2
 };
 
