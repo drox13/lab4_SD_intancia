@@ -2,12 +2,8 @@ const axios = require('axios');
 
 //socket con el coordinador
 const io = require("socket.io-client");
-try {
-	const socket = io("http://192.68.00.4:9000/"); //http://127.0.0.1:9000/
-} catch (error) {
-	console.log(error);
-	console.log("no se hizo conexion con coordinador");
-}
+
+const socket = io("http://192.68.00.4:9000/"); //http://127.0.0.1:9000/
 
 let time = new Date();
 let offset;
