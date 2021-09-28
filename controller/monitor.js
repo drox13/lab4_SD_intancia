@@ -1,14 +1,16 @@
 const axios = require('axios');
 
 //socket con el coordinador
-const io = require("socket.io-client");
+const io = require('socket.io-client');
 
-const socket = io("http://127.0.0.1:9000/"); 
+const socket = io('http://127.0.0.1:9000/');
 //http://192.168.100.4:9000/ //para cuando se despliegue en docker
 //http://127.0.0.1:9000/  para conectarse localmente
 
 let time = new Date();
 let offset;
+let gap;
+let timeBeforeAdjusment;
 
 let threadGetTimeFromAPI = setInterval(() => {
 	axios
@@ -33,7 +35,7 @@ let threadGetTimeFromAPI = setInterval(() => {
 		})
 		.catch((error) => {
 			//console.log(error);
-			console.log("Error en api");
+			console.log('Error en api');
 		});
 }, 900); //60000 = 1 minuto
 
@@ -46,7 +48,7 @@ const socketConnect = (socketClient) => {
 				minutes: time.getUTCMinutes(),
 				seconds: time.getUTCSeconds(),
 			},
-		}); 
+		});
 	}, 1000);
 
 	socketClient.on('newTime', (payload) => {
@@ -59,40 +61,46 @@ const socketConnect = (socketClient) => {
 	});
 };
 
-socket.on("connect", () => {
-	socket.emit("Hello", {
-		saludo: "hola soy una instancia",
-		socketid: socket.id	
+socket.on('connect', () => {
+	socket.emit('Hello', {
+		saludo: 'hola soy una instancia',
+		socketid: socket.id,
 	});
 });
 
-var gap
-socket.on("timeServer",(message)=>{
- 	console.log(message.time, "este console");
+socket.on('timeServer', (message) => {
+	clearInterval(threadGetTimeFromAPI);
+	clearInterval(threadSendTimeToClient);
+	console.log(message.time, 'llega tiempo desde el coordinador');
 	let timeCoordinator = new Date(message.time);
-	gap = (timeCoordinator.getTime() - time.getTime()) / 1000
-	socket.emit("desfase", {
+	timeBeforeAdjusment = time;
+	gap = (timeCoordinator.getTime() - time.getTime()) / 1000;
+	socket.emit('desfase', {
 		desfase: gap,
-		id: socket.id
-		}
-	);
+		id: socket.id,
+	});
 });
 
-socket.on("ajuste", (ajuste)=>{
+socket.on('ajuste', (ajuste) => {
 	//aca se podra optener el dato para sincronizar
-	console.log("este es el ajuste", ajuste);
-	let newValue = ajuste;
-	time.setTime(newValue * 1000);
-	socketClient.emit('newValueToClient', {
-		time: {
+	console.log('este es el ajuste', ajuste);
+	let adjustment = ajuste;
+	time.setTime(adjustment * 1000);
+	socketClient.emit('adjustmentValueToClient', {
+		currentTime: {
+			currentHour: timeBeforeAdjusment.getUTCHours(),
+			currentMinutes: timeBeforeAdjusment.getUTCMinutes(),
+			currentSeconds: timeBeforeAdjusment.getUTCSeconds(),
+		},
+		adjustment,
+		newTime: {
 			hour: time.getUTCHours(),
 			minutes: time.getUTCMinutes(),
 			seconds: time.getUTCSeconds(),
 		},
 	});
-})
+});
 
 module.exports = {
 	socketConnect,
 };
-

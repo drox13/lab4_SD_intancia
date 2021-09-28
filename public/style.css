@@ -1,5 +1,14 @@
-table, th, td {
-    border: 1px solid black;
-    border-spacing: 20px;
-    width: 300px;
+.container {
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.container-lg {
+    padding: 15px;
+    background-color: #E9ECEF;
+    border-radius: 10px;
+}
+
+.col-4 {
+    text-align: center;
 }
