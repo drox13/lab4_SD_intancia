@@ -56,7 +56,7 @@ const socketConnect = (socketClient) => {
 socket.on('timeServer', (message) => {
 	let timeCoordinator = new Date(message.time);
 	gap = (timeCoordinator.getTime() - time.getTime()) / 1000;
-	socket.emit('desface', {
+	socket.emit('desfase', {
 		gap,
 	});
 });
