@@ -4,7 +4,7 @@ const { createServer } = require('http');
 const { Server } = require('socket.io');
 
 const cors = require('cors');
-const { socketConnect } = require('../controller/monitor');
+const { socketConnect, initTime } = require('../controller/monitor');
 
 class MyServer {
 	constructor() {
@@ -32,6 +32,7 @@ class MyServer {
 	}
 
 	listen() {
+		initTime();
 		this.httpServer.listen(this.port);
 		console.log(`Server on! PORT ${this.port}`);
 	}

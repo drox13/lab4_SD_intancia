@@ -10,32 +10,29 @@ const socket = io("http://127.0.0.1:9000/");
 let time = new Date();
 let offset;
 
-setInterval(() => {
+
+
+const initTime = () => {
+	console.log('me llamaron')
 	axios
 		.get('http://worldtimeapi.org/api/timezone/America/Buenos_Aires')
 		.then(({ data }) => {
 			time = new Date(data.utc_datetime);
 			offset = data.utc_offset;
-
-			// console.log('OJO: el siguiente metodo optinen las horas de una fecha, usando el tiempo local');
-			// console.log(time.getHours(), time.getMinutes(), time.getSeconds());
-			// console.log('hora standard');
-			// console.log(time);
-			// console.log('Hora real de buenos aires');
 			let signo = offset.substring(0, 1);
 			if (signo == '-') {
 				time.setUTCHours(time.getUTCHours() - parseInt(offset.substring(2, 3)));
-				// console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 			} else {
 				time.setUTCHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
-				// console.log(time.getUTCHours(), time.getUTCMinutes(), time.getUTCSeconds());
 			}
 		})
 		.catch((error) => {
-			//console.log(error);
 			console.log("Error en api");
 		});
-}, 900); //60000 = 1 minuto
+		setInterval(() => {
+			time.setSeconds(time.getSeconds() + 1);
+		}, 1000)
+}
 
 const socketConnect = (socketClient) => {
 	console.log('Client connect!', socketClient.id);
@@ -59,7 +56,6 @@ socket.on("connect", () => {
 
 var desfase
 socket.on("timeServer",(message)=>{
- 	console.log(message.time, "este console");
 	let timeCoordinator = new Date(message.time);
 	desfase = (timeCoordinator.getTime() - time.getTime())/1000
 	socket.emit("desfase", {
@@ -76,4 +72,5 @@ socket.on("ajuste", (ajuste)=>{
 
 module.exports = {
 	socketConnect,
+	initTime
 };
