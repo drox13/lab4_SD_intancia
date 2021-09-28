@@ -3,7 +3,8 @@ const axios = require('axios');
 //socket con el coordinador
 const io = require("socket.io-client");
 
-const socket = io("http://192.168.100.4:9000/"); 
+const socket = io("http://127.0.0.1:9000/"); 
+//http://192.168.100.4:9000/ //para cuando se despliegue en docker
 //http://127.0.0.1:9000/  para conectarse localmente
 
 let time = new Date();
@@ -61,15 +62,16 @@ socket.on("timeServer",(message)=>{
  	console.log(message.time, "este console");
 	let timeCoordinator = new Date(message.time);
 	desfase = (timeCoordinator.getTime() - time.getTime())/1000
-	socket.emit("desface", {
+	socket.emit("desfase", {
 		desfase: desfase,
 		id: socket.id
 		}
 	);
 });
 
-socket.on("sincronization", (dataSincronitazion)=>{
+socket.on("ajuste", (ajuste)=>{
 	//aca se podra optener el dato para sincronizar
+	console.log("este es el ajuste", ajuste);
 })
 
 module.exports = {
