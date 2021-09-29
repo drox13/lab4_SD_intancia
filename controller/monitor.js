@@ -22,14 +22,14 @@ const initTime = () => {
 	axios
 		.get('http://worldtimeapi.org/api/timezone/America/Buenos_Aires')
 		.then(({ data }) => {
-			time = new Date(data.utc_datetime);
-			offset = data.utc_offset;
-			let signo = offset.substring(0, 1);
-			if (signo == '-') {
-				time.setUTCHours(time.getUTCHours() - parseInt(offset.substring(2, 3)));
-			} else {
-				time.setUTCHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
-			}
+			time = new Date(data.datetime);
+			// offset = data.utc_offset;
+			// let signo = offset.substring(0, 1);
+			// if (signo == '-') {
+			// 	time.setUTCHours(time.getUTCHours() - parseInt(offset.substring(2, 3)));
+			// } else {
+			// 	time.setUTCHours(time.getUTCHours() + parseInt(offset.substring(2, 3)));
+			// }
 		})
 		.catch((error) => {
 			console.log("Error en api");
